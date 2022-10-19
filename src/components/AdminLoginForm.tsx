@@ -1,8 +1,15 @@
 import { Box, Button } from '@chakra-ui/react';
-import useInput from '../hooks/user-input';
+import useInput from '../hooks/useInput';
 import InputField from './InputField';
+import { loginUser } from '../store/authActions';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { useNavigate } from 'react-router-dom';
+
 
 const AdminLoginForm = () => {
+    const dispatch = useAppDispatch();   
+    const navigate = useNavigate(); 
+
     const {
       hasError: inputHasError, 
       inputChangeHandler: emailInputHandler, 
@@ -15,11 +22,17 @@ const AdminLoginForm = () => {
         inputChangeHandler: passwordInputHandler, 
         blurChangeHandler: passwordBlurHandler, 
         inputValue: passwordValue
-    } = useInput((value) => {return value.length > 6});
-    
-    return(
-        <form>
-            <Box borderWidth='1px' p={5} w={"25%"} marginX={"auto"} marginY={"10%"}>
+    } = useInput((value: string) => {return value.length > 6});
+
+    const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(loginUser({email: emailValue, password: passwordValue}));
+       
+    }
+   
+        return(
+            <Box borderWidth='1px' borderRadius={15} padding={10} marginTop={"140px"}>
+                <form onSubmit={formSubmitHandler}>
                 <InputField 
                     hasError= {inputHasError} 
                     inputChangeHandler = {emailInputHandler} 
@@ -40,11 +53,9 @@ const AdminLoginForm = () => {
                     inputType = {"password"}
                     title={"Password"}
                 />
-                <Button colorScheme='green' size='md' w={"100%"}> Log In </Button>
+                <Button colorScheme='blue' size='md' w={"100%"} type="submit"> Log In </Button>
+                </form>
             </Box> 
-
-            
-        </form>
     );
 }
 

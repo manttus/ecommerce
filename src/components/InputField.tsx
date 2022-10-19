@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, FormHelperText, FormErrorMessage, Input} from '@chakra-ui/react';
+import { FormControl, FormLabel, Input} from '@chakra-ui/react';
 
 interface PropsData{
 
@@ -23,16 +23,9 @@ const InputField: React.FC<PropsData> = (props) => {
     };
 
     return (
-      <FormControl isInvalid={props.hasError} marginY={"2em"}>
+      <FormControl isInvalid={props.hasError} marginBottom={"1.5em"}>
         <FormLabel> {props.title}</FormLabel>
         <Input type={props.inputType} value={props.inputValue} onChange={handleInputHandler} onBlur={blurInputHandler} />
-        {!props.hasError ? (
-          <FormHelperText>
-            {props.helperText}
-          </FormHelperText>
-        ) : (
-          <FormErrorMessage>{props.formErrorMessage}</FormErrorMessage>
-        )}
       </FormControl>
     )
   }
